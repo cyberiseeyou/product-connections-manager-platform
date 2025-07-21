@@ -5,6 +5,10 @@
 requests>=2.28.0                # HTTP client for API communication
 typing-extensions>=4.5.0        # Enhanced type hints for older Python versions
 
+# PDF generation dependencies
+reportlab>=4.0.0                # Professional PDF generation library
+weasyprint>=61.0                # Alternative HTML to PDF converter (optional)
+
 # Optional dependencies for enhanced functionality
 urllib3>=1.26.0                 # Advanced HTTP handling (already included with requests)
 
