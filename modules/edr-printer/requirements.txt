@@ -1,0 +1,26 @@
+# EDR Printer Module Dependencies
+# Requirements for Walmart Retail Link EDR generation and printing
+
+# Core dependencies
+requests>=2.28.0                # HTTP client for API communication
+typing-extensions>=4.5.0        # Enhanced type hints for older Python versions
+
+# Optional dependencies for enhanced functionality
+urllib3>=1.26.0                 # Advanced HTTP handling (already included with requests)
+
+# Development dependencies (optional)
+pytest>=7.0.0                   # Testing framework
+pytest-cov>=4.0.0              # Coverage reporting
+black>=22.0.0                   # Code formatting
+flake8>=5.0.0                   # Linting
+
+# Standard library modules used (no installation required):
+# - datetime: Date/time handling
+# - tempfile: Temporary file management
+# - subprocess: System command execution
+# - platform: OS detection for printing
+# - json: JSON data handling
+# - urllib.parse: URL handling
+# - os: Operating system interface
+# - time: Time-related functions
+# - logging: Logging functionality
