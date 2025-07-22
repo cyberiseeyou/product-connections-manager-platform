@@ -16,9 +16,13 @@ Usage:
     from edr_report_generator import EDRReportGenerator
     
     generator = EDRReportGenerator()
-    generator.authenticate()  # Interactive authentication
+    generator.authenticate()  # Will prompt for credentials interactively
     report_data = generator.get_edr_report(event_id="606034")
     html_report = generator.generate_html_report(report_data)
+    
+    # Alternative: Set credentials programmatically
+    generator.set_credentials("username", "password", "mfa_id")
+    generator.authenticate()
 """
 
 import requests
@@ -30,6 +34,7 @@ import tempfile
 import os
 import subprocess
 import platform
+import getpass
 
 
 class EDRReportGenerator:
@@ -49,10 +54,10 @@ class EDRReportGenerator:
         self.auth_token = None
         self.user_data = None
         
-        # Store credentials (in production, use environment variables)
-        self.username = ""
-        self.password = ""
-        self.mfa_credential_id = ""
+        # Credentials will be prompted from user
+        self.username = None
+        self.password = None
+        self.mfa_credential_id = None
         
         # Event report table headers from the JavaScript component
         self.report_headers = [
@@ -61,6 +66,59 @@ class EDRReportGenerator:
         
         # Default store number for filtering (from cURL command)
         self.default_store_number = "8135"
+
+    def _prompt_for_credentials(self) -> bool:
+        """
+        Prompt user for their Retail Link credentials.
+        
+        Returns:
+            True if credentials were provided, False otherwise
+        """
+        print("🔐 Retail Link Authentication Setup")
+        print("Please provide your Retail Link credentials:")
+        
+        try:
+            # Get username
+            self.username = input("Username: ").strip()
+            if not self.username:
+                print("❌ Username is required")
+                return False
+            
+            # Get password securely (hidden input)
+            self.password = getpass.getpass("Password: ")
+            if not self.password:
+                print("❌ Password is required")
+                return False
+            
+            # Get MFA credential ID
+            self.mfa_credential_id = input("MFA Credential ID: ").strip()
+            if not self.mfa_credential_id:
+                print("❌ MFA Credential ID is required")
+                return False
+            
+            print("✅ Credentials collected successfully")
+            return True
+            
+        except KeyboardInterrupt:
+            print("\n❌ Authentication cancelled by user")
+            return False
+        except Exception as e:
+            print(f"❌ Error collecting credentials: {e}")
+            return False
+
+    def set_credentials(self, username: str, password: str, mfa_credential_id: str) -> None:
+        """
+        Set credentials programmatically (alternative to prompting).
+        
+        Args:
+            username: Retail Link username
+            password: Retail Link password  
+            mfa_credential_id: MFA credential ID
+        """
+        self.username = username
+        self.password = password
+        self.mfa_credential_id = mfa_credential_id
+        print("✅ Credentials set programmatically")
 
     def _get_initial_cookies(self) -> Dict[str, str]:
         """Return initial cookies required for authentication."""
@@ -108,6 +166,12 @@ class EDRReportGenerator:
 
     def step1_submit_password(self) -> bool:
         """Step 1: Submit username and password."""
+        # Check if credentials are available, prompt if not
+        if not self.username or not self.password or not self.mfa_credential_id:
+            print("🔑 Credentials not provided, prompting user...")
+            if not self._prompt_for_credentials():
+                return False
+        
         login_url = "https://retaillink.login.wal-mart.com/api/login"
         headers = {
             'accept': '*/*',
@@ -1081,27 +1145,39 @@ class EDRReportGenerator:
 
 # Example usage and testing
 if __name__ == "__main__":
-    # Automated usage - no user interaction
+    # Interactive usage example
     generator = EDRReportGenerator()
     
-    print("🤖 Running in automated mode - no user interaction")
-    print("⚠️ Note: MFA authentication will fail in automated mode")
-    print("📋 This script is designed for use after manual authentication")
+    print("🤖 Enhanced EDR Printer - Interactive Mode")
+    print("This will prompt you for your Retail Link credentials")
     
-    # For automated usage, assume authentication is already handled
-    # or use this for testing the report generation parts only
+    # Authenticate with user prompts
+    if generator.authenticate():
+        print("✅ Authentication successful!")
+        
+        # Example: Browse recent events
+        print("\n📅 Browsing recent events...")
+        events = generator.browse_events()
+        
+        if events:
+            print(f"Found {len(events)} events")
+            
+            # Example: Generate report for first event
+            if len(events) > 0 and isinstance(events, list):
+                first_event = events[0]
+                event_id = str(first_event.get('id', '606034'))  # fallback to test ID
+                print(f"\n� Generating report for event {event_id}")
+                success = generator.generate_and_print_edr_report(event_id, save_copy=True)
+                
+                if success:
+                    print("✅ EDR report generated, saved, and sent to printer!")
+                else:
+                    print("❌ Failed to complete the report generation")
+        else:
+            print("No events found for the current date range")
+    else:
+        print("❌ Authentication failed")
     
-    # Example of automated report generation (would need pre-authenticated session)
-    # event_id = "606034"  # Default event ID for testing
-    # 
-    # if generator.auth_token:  # Only if already authenticated
-    #     print(f"🖨️ Generating and printing EDR report for event {event_id}...")
-    #     success = generator.generate_and_print_edr_report(event_id, save_copy=True)
-    #     if success:
-    #         print("✅ EDR report generated, saved, and sent to printer!")
-    #     else:
-    #         print("❌ Failed to complete the automated process")
-    # else:
-    #     print("❌ No authentication token available for automated operation")
-    
-    print("� For automated usage, integrate this class into your workflow after authentication")
+    print("\n💡 For automated/programmatic usage:")
+    print("   generator.set_credentials('username', 'password', 'mfa_id')")
+    print("   generator.authenticate()")
