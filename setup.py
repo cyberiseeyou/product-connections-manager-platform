@@ -19,7 +19,7 @@ def read_requirements(filename):
 
 setup(
     name="product-connections-manager",
-    version="1.0.0",
+    version="1.0.1",
     author="Your Name",
     author_email="your.email@example.com",
     description="Enhanced EDR (Event Data Recorder) printer with PDF consolidation and professional formatting",
