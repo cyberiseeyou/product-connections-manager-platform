@@ -50,9 +50,9 @@ class EDRReportGenerator:
         self.user_data = None
         
         # Store credentials (in production, use environment variables)
-        self.username = "mat.conder@productconnections.com"
-        self.password = "Crossmark812Th$"
-        self.mfa_credential_id = "18122365202"
+        self.username = ""
+        self.password = ""
+        self.mfa_credential_id = ""
         
         # Event report table headers from the JavaScript component
         self.report_headers = [
