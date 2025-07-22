@@ -6,7 +6,7 @@ Your Enhanced EDR Printer project has been successfully formatted as a PyPI-comp
 
 ### 🎯 Package Details
 - **Package Name**: `product-connections-manager`
-- **Version**: `1.0.0`
+- **Version**: `1.0.1`
 - **Python Compatibility**: 3.8+
 - **Distribution Format**: Both source (.tar.gz) and wheel (.whl)
 
@@ -25,8 +25,8 @@ edr_printer_new/
 │   ├── test_enhanced_edr_printer.py     # Main tests
 │   └── README.md                        # Test documentation
 ├── dist/                                # Built distributions
-│   ├── product_connections_manager-1.0.0.tar.gz    # Source distribution
-│   └── product_connections_manager-1.0.0-py3-none-any.whl  # Wheel
+│   ├── product_connections_manager-1.0.1.tar.gz    # Source distribution
+│   └── product_connections_manager-1.0.1-py3-none-any.whl  # Wheel
 ├── setup.py                             # Package setup script
 ├── pyproject.toml                       # Modern packaging config
 ├── MANIFEST.in                          # File inclusion rules
@@ -52,12 +52,13 @@ The package provides two command-line tools:
 ✅ **Console Scripts**: Command-line tools for easy usage  
 ✅ **Optional Dependencies**: PDF features as optional extras  
 ✅ **Testing Framework**: Complete test suite with pytest  
+✅ **Security**: Credentials properly secured (v1.0.1+)  
 
 ### 🔧 Installation Options
 
 #### Option 1: Install from Local Wheel
 ```bash
-pip install dist/product_connections_manager-1.0.0-py3-none-any.whl
+pip install dist/product_connections_manager-1.0.1-py3-none-any.whl
 ```
 
 #### Option 2: Install with PDF Support
