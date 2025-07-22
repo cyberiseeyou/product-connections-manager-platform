@@ -1,0 +1,64 @@
+# Include the README
+include README.md
+
+# Include the license
+include LICENSE
+
+# Include requirements files
+include requirements.txt
+
+# Include the changelog if it exists
+include CHANGELOG.md
+
+# Include the pyproject.toml
+include pyproject.toml
+
+# Include any configuration files
+include *.cfg
+include *.ini
+
+# Exclude unnecessary files
+exclude .env
+exclude .env.*
+
+# Exclude development files
+exclude .gitignore
+exclude .github/*
+exclude .vscode/*
+exclude .idea/*
+
+# Exclude build artifacts
+exclude build/*
+exclude dist/*
+exclude *.egg-info/*
+
+# Exclude test files and directories
+exclude tests/*
+exclude test_*
+
+# Exclude virtual environments
+exclude .venv/*
+exclude venv/*
+exclude env/*
+
+# Exclude cache directories
+exclude __pycache__/*
+exclude .pytest_cache/*
+exclude .mypy_cache/*
+exclude .coverage
+
+# Exclude temporary files
+exclude *.tmp
+exclude *.log
+exclude *.bak
+exclude *~
+
+# Include package data
+recursive-include product_connections_manager *.py
+recursive-include product_connections_manager/edr_printer *.py
+
+# Exclude compiled Python files
+global-exclude *.pyc
+global-exclude *.pyo
+global-exclude *.pyd
+global-exclude __pycache__/*
