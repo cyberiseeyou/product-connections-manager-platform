@@ -1,10 +1,10 @@
 [build-system]
-requires = ["setuptools>=45", "wheel", "setuptools-scm[toml]>=6.2"]
+requires = ["setuptools>=45", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "product-connections-manager"
-dynamic = ["version"]
+version = "1.0.1"
 description = "A comprehensive platform for managing Product Connections operations with automated EDR printing"
 readme = "README.md"
 requires-python = ">=3.8"
